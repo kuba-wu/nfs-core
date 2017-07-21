@@ -1,0 +1,37 @@
+<div data-bind="attr: {'id': containerId}" class='panel-body collapse'>
+    <div id="chartContainer">
+    	<!--ko foreach: charts -->
+		<div data-bind="attr: {id : outerId}" class="chart-archive alert alert-dismissable alert-success">
+		    <div class="chart-container container">
+		        <button data-bind="click: $parent.remove" type="button" class="close">&times;</button>
+		        <div class="col-md-3">
+		            <ul class='list-group'>
+		                <li class="list-group-item list-group-item-info chart-system-header"><!-- ko text: system.name --><!-- /ko --></li>
+		            <!--ko foreach: system.components-->
+		                <li class="list-group-item chart-property-header">NFIS: "<!-- ko text: id--><!--/ko-->"</li>
+		                <li class="list-group-item chart-property">
+		                    <span class="chart-poperty-value">Production=<!-- ko text: effector.production --><!--/ko--></span>,
+		                    <span class="chart-poperty-value">Outflow=<!-- ko text: effector.outflow --><!--/ko--></span>,
+		                    <span class="chart-poperty-value">Delay=<!-- ko text: receptor.delay --><!--/ko--></span>,
+		                <!--ko foreach: {data: receptor.thresholds, as: 'threshold'}-->
+		                    <span class="chart-poperty-value" data-bind="text: threshold.signal == null ? threshold.product+'='+threshold.value : threshold.signal+' / '+threshold.product+'='+threshold.value"></span>,
+		                <!--/ko-->
+		                </li>
+		            <!-- /ko -->
+		            <!--ko foreach: system.receptors-->
+		                <li class="list-group-item chart-property-header">External receptor: "<!-- ko text: id--><!--/ko-->"</li>
+		                <li class="list-group-item chart-property">
+		                    <span class="chart-poperty-value">Delay=<!-- ko text: delay --><!--/ko--></span>,
+		                <!--ko foreach: {data: thresholds, as: 'threshold'}-->
+		                    <span class="chart-poperty-value" data-bind="text: threshold.signal == null ? threshold.product+'='+threshold.value : threshold.signal+' / '+threshold.product+'='+threshold.value"></span>,
+		                <!--/ko-->
+		                </li>
+		            <!-- /ko -->
+		            </ul>
+		        </div>
+		        <div class="cold-md-9 chart" data-bind="attr: {id: innerId}"></div>
+		    </div>
+		</div>
+		<!-- /ko -->
+    </div>
+</div>

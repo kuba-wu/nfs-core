@@ -1,0 +1,73 @@
+<div>
+    <div id="ComponentParametersEditor" class="panel panel-default form-group property-editor">
+        <ul class='list-group'>
+        <!--ko foreach: system.system.components-->
+            <li class="list-group-item list-group-item-info property-name">
+                NFIS "<span data-bind='text: id'></span>" (produces: "<span data-bind='text: effector.product'></span>")
+            </li>
+            <li class="list-group-item property">
+                <div class="input-group input-group-sm configuration-input property">
+                    <span class="input-group-addon">Production</span> 
+                    <input type="text" class="form-control property" data-bind='value: effector.production' />
+                </div>
+                <div class="input-group input-group-sm configuration-input property">
+                    <span class="input-group-addon">Outflow</span> 
+                    <input type="text" class="form-control double-type-property" data-bind='value: effector.outflow' />
+                </div>
+                <div class="input-group input-group-sm configuration-input property">
+                    <span class="input-group-addon">Delay</span> 
+                    <input type="text" class="form-control property" data-bind='value: receptor.delay' />
+                </div>
+            </li>
+            <li class="list-group-item property-sub-header">
+                Thresholds
+            </li>
+            <li class="list-group-item property">
+                <!--ko foreach: receptor.thresholds-->
+                <div class="input-group input-group-sm configuration-input property">
+                    <span class="input-group-addon" data-bind="text: $parents[1].formatLabel($data)"></span> 
+                    <input type="text" class="form-control property" data-bind='value: $data.value' />
+                </div>
+                <!--/ko-->
+            </li>
+        <!--/ko-->
+        <!--ko foreach: system.system.receptors-->
+            <li class="list-group-item list-group-item-info property-name">
+                External receptor "<span data-bind='text: id'></span>"
+            </li>
+            <li class="list-group-item property">
+                <div class="input-group input-group-sm configuration-input property">
+                    <span class="input-group-addon">Delay</span> 
+                    <input type="text" class="form-control property" data-bind='value: delay' />
+                </div>
+            </li>
+            <li class="list-group-item property-sub-header">
+                Thresholds
+            </li>
+            <li class="list-group-item property">
+                <!--ko foreach: {data: thresholds, as: 'threshold'}-->
+                <div class="input-group input-group-sm configuration-input property">
+                	
+                    <span class="input-group-addon" data-bind="text: $parents[1].formatLabel(threshold)"></span> 
+                    <input type="text" class="form-control property" data-bind='value: threshold.value' />
+                </div>
+                <!--/ko-->
+            </li>
+        <!--/ko-->
+        <!--ko foreach: system.system.inits -->
+            <li class="list-group-item list-group-item-info property-name">
+                Initial values
+            </li>    
+            <li class="list-group-item property">
+            <!--ko foreach: {data: Object.keys($data)}-->    
+                <div class="input-group input-group-sm configuration-input property">
+                    <span class="input-group-addon" data-bind="text: $data"></span>  
+                    <input type="text" class="form-control property" data-bind='value: $parent[$data]' />
+                </div>
+            <!--/ko-->
+            </li>
+        <!--/ko-->    
+        </ul>
+    </div>
+    <button class="btn btn-primary" data-bind="click: setSystemParams, attr: {id : setParamsButtonId}">Set parameters</button>
+</div>

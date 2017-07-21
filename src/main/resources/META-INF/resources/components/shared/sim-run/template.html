@@ -1,0 +1,9 @@
+<form class="navbar-form navbar-right form-inline" action="#" role="form">
+    <div class="input-group input-group-sm">
+        <span class="input-group-addon">Time scale: </span> <input data-bind="value: timeScale" type="number" class="form-control" id="timeScaleInput">
+    </div>
+    <div class="input-group input-group-sm">
+        <span class="input-group-addon">Time: </span> <input data-bind="value: runTime" type="number" class="form-control" id="runTimeInput">
+    </div>
+    <button data-bind="attr : {id : loadDataId}, click : submit" class="btn btn-primary btn-sm">Simulate</button>
+</form>

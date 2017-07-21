@@ -1,0 +1,17 @@
+<form class="navbar-form navbar-left form-inline" action="#" role="form">
+    <div class="btn-group" style="margin: 0px 10px 0px 10px;">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Please pick a task... <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <!--ko foreach: tasks-->
+            <li>
+                <a href="#" data-bind="click: $parent.loadSelectedTask">
+                    <span data-bind="text: name"></span>
+                </a>
+            </li>
+            <!--/ko-->
+        </ul>
+    </div>
+ </form>
+<span data-bind="template: { afterRender: init }"></span>

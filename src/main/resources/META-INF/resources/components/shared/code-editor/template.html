@@ -1,0 +1,10 @@
+<div id="SystemEditor">
+    <form action="#" role="form">
+        <div class="form-group">
+            <textarea data-bind="attr: {'id': containerId}" rows="10" class="form-control" data-editor="json" style="display: none"></textarea>
+        </div>
+        <button class="btn btn-primary" data-bind='click: submitSimulationDef, attr: {id: submitSimulationDefButtonId}'>Submit</button>
+        <button id="formatSimulationDefButton" class="btn btn-primary" data-bind='click: format'>Format code</button>
+    </form>
+</div>
+<span data-bind="template: { afterRender: init }"></span>
