@@ -6,7 +6,7 @@ var TaskHeaderModel = function(params) {
 
 $(document).ready(function() {
 	ko.components.register('task-header', {
-	    template : {require: 'text!components/anonymous/task-header/template.html'},
+	    template : {require: 'text!components/shared/task-header/template.html'},
 	    viewModel : TaskHeaderModel
 	});
 });

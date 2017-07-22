@@ -29,6 +29,6 @@ var TaskPickerModel= function(params){
 };
 
 ko.components.register('task-picker', {
-    template: { require: 'text!components/anonymous/task-picker/template.html' },
+    template: { require: 'text!components/shared/task-picker/template.html' },
     viewModel: TaskPickerModel
 });
