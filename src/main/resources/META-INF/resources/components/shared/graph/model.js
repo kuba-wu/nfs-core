@@ -17,7 +17,7 @@ var GraphModel = function(params) {
 	
 	self.loadGraph = function(system) {
 		$.ajax({
-			  url: "/nfs/api/system/graph",
+			  url: "api/system/graph",
 			  type: "POST",
 			  data: system,
 			  contentType: "application/json",

@@ -147,7 +147,7 @@ var ChartModel = function(params) {
 	};
 	
 	self.getDataUrl = function() {
-		return ("/nfs/api/system/simulation");
+		return ("api/system/simulation");
 	};
 	
 	self.loadData = function(colors, systemJs, simulationRun) {

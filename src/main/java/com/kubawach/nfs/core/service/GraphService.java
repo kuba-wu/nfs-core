@@ -28,7 +28,7 @@ public class GraphService {
         SystemPosition result = positionDao.findById(id);
         if (result == null) {
             SerializedSystem system = systemDao.findOne(id);
-            result = getForSystem(system.getParentId());
+            result = (system == null ? null : getForSystem(system.getParentId()));
         }
         
         return result;

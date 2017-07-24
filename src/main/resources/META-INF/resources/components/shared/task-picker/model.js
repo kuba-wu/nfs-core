@@ -12,7 +12,7 @@ var TaskPickerModel= function(params){
 	});
 	
 	self.loadAllTasks = function() {
-		$.get("/nfs/api/task/public", function(tasks) {
+		$.get("api/task/public", function(tasks) {
 			self.tasks(tasks);
 		});
 	};
