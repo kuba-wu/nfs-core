@@ -142,6 +142,10 @@ var ChartModel = function(params) {
 		return result;
 	};
 	
+	self.removeAll = function() {
+	    self.charts.removeAll();
+	}
+	
 	self.remove = function(chart) {
 		self.charts.remove(chart);
 	};

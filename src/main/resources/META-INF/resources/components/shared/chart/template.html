@@ -1,9 +1,12 @@
 <div data-bind="attr: {'id': containerId}" class='panel-body collapse'>
+    <p>
+        <button class="pull-right btn btn-sm btn-danger" data-bind="click: removeAll">Remove all</button>
+    </p>
     <div id="chartContainer">
     	<!--ko foreach: charts -->
 		<div data-bind="attr: {id : outerId}" class="chart-archive alert alert-dismissable alert-success">
 		    <div class="chart-container container">
-		        <button data-bind="click: $parent.remove" type="button" class="close">&times;</button>
+		        <button data-bind="click: $parent.remove" type="button" class="close" style="color: red; opacity: 1">&times;</button>
 		        <div class="col-md-3">
 		            <ul class='list-group'>
 		                <li class="list-group-item list-group-item-info chart-system-header"><!-- ko text: system.name --><!-- /ko --></li>
