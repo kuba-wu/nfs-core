@@ -17,7 +17,7 @@ var GraphModel = function(params) {
 	
 	self.loadGraph = function(system) {
 		if (!self.hasStructuralChange()) {
-			console.debug("no need to reload graph");
+			console.info("no need to reload graph");
 			return ;
 		}
 		$.ajax({
