@@ -16,6 +16,10 @@ var GraphModel = function(params) {
 	});
 	
 	self.loadGraph = function(system) {
+		if (!self.hasStructuralChange()) {
+			// no need to reload graph!
+			return ;
+		}
 		$.ajax({
 			  url: "api/system/graph",
 			  type: "POST",
@@ -23,9 +27,7 @@ var GraphModel = function(params) {
 			  contentType: "application/json",
 			  success: function(graph){
 				  
-				  if (self.hasStructuralChange()) {
-					  self.colors(self.generateColors(graph.products));
-				  }
+				  self.colors(self.generateColors(graph.products));
 				  self.graph(graph);
 				  self.createGraph();
 			  },
