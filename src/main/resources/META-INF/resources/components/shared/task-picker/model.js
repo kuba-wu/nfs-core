@@ -18,9 +18,10 @@ var TaskPickerModel= function(params){
 	};
 	
 	self.loadSelectedTask = function(task) {
+		
+		self.hasStructuralChange(true);
 		self.task(task);
 		self.system(JSON.stringify(task.system));
-		self.hasStructuralChange(true);
 	};
 	
 	self.init = function() {
