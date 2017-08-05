@@ -4,8 +4,6 @@ var ParametersEditorModel = function(params){
 	
 	self.containerId = params.view+"_parametersEditor";
 	
-	self.setParamsButtonId = params.view+"_setParamsButton";
-	
 	self.system = ko.mapping.fromJS({
 		system : {
 			id: "",
@@ -16,6 +14,10 @@ var ParametersEditorModel = function(params){
 			inits: []
 		}
 	});
+	
+	self.systemWithParams = ko.observable().publishOn(params.view+"_system", true);
+	self.hasStructuralChange = ko.observable().publishOn(params.view+"_hasStructuralChange", true);
+	
 	self.formatLabel = function(threshold) {
 		
 		return (typeof threshold.signal !== "function" || threshold.signal() == null 
@@ -59,7 +61,7 @@ var ParametersEditorModel = function(params){
 		var systemObject = JSON.parse(systemAsString);
 		var system = self.toModel(systemObject);
 		ko.mapping.fromJS(system, self.system);
-		self.subscribeToModel(self.setEditorDirtyState);
+		self.subscribeToModel(self.setSystemParams);
 		$('input.property').TouchSpin({
 			verticalbuttons: true,
 			decimals: 0,
@@ -70,7 +72,6 @@ var ParametersEditorModel = function(params){
 			decimals: 2,
 			step: 0.01
 		});
-		self.setEditorCleanState();
 	};
 	
 	self.subscribeToModel = function(callback) {
@@ -100,25 +101,12 @@ var ParametersEditorModel = function(params){
 			}
 		}
 	};
-	
-	self.systemWithParams = ko.observable().publishOn(params.view+"_system", true);
-	self.hasStructuralChange = ko.observable().publishOn(params.view+"_hasStructuralChange", true);
-	
+		
 	self.setSystemParams = function() {
 		
 		var system = self.fromModel();
 		self.hasStructuralChange(false);
 		self.systemWithParams(system);
-	};
-	
-	self.setEditorDirtyState = function() {
-		$('#'+self.setParamsButtonId).removeClass('btn-primary');
-		$('#'+self.setParamsButtonId).addClass('btn-danger');
-	};
-	
-	self.setEditorCleanState = function() {
-		$('#'+self.setParamsButtonId).addClass('btn-primary');
-		$('#'+self.setParamsButtonId).removeClass('btn-danger');
 	};
 };
 
