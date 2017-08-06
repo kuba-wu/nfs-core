@@ -35,7 +35,7 @@ var SimRunModel = function(params){
 		$('#'+self.loadDataId).removeClass('btn-danger');
 	};	
 	
-	ko.postbox.subscribe(params.view+"_graph", function(graph) {
+	ko.postbox.subscribe(params.view+"_system", function(system) {
 		self.setSimulationRunNeeded();
 	});
 }
