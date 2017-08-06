@@ -10,7 +10,7 @@ var SimRunModel = function(params){
 	};
 	
 	self.submissionFlag = ko.observable(false).publishOn(params.view+"_submissionFlag", true);
-	self.runTime = ko.observable(100).publishOn(params.view+"_runTime", false, comparer);
+	self.runTime = ko.observable(200).publishOn(params.view+"_runTime", false, comparer);
 	self.runTime.extend({ notify: 'always' });
 	self.timeScale = ko.observable(10).publishOn(params.view+"_timeScale", false, comparer);
 	self.runTime.extend({notify: 'always'});
