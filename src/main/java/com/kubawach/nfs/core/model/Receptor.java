@@ -1,5 +1,6 @@
 package com.kubawach.nfs.core.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -46,8 +47,8 @@ public class Receptor {
             String productId = entry.getKey();
             Long threshold = entry.getValue();
             
-            double product = newState.getProduct(productId).getConcentration();
-            boolean isSignalNow = (product > threshold);
+            BigDecimal product = newState.getProduct(productId).getConcentration();
+            boolean isSignalNow = (product.compareTo(BigDecimal.valueOf(threshold)) > 0);
 
             Signal previousSignal = oldState.getSignal(id);
             boolean wasSignal = previousSignal.isActive(productId);
@@ -84,7 +85,7 @@ public class Receptor {
                 }
             }
             
-            log.info("[receptor {}] wasSignal={}, isNow={}, shouldBeNow={}, time={}", id, wasSignal, isSignalNow, (product > threshold), time);
+            log.info("[receptor {}] wasSignal={}, isNow={}, shouldBeNow={}, time={}", id, wasSignal, isSignalNow, (product.compareTo(BigDecimal.valueOf(threshold)) > 0), time);
             
             activeStates.put(productId, isSignalNow);
             chargeTimes.put(productId, time);

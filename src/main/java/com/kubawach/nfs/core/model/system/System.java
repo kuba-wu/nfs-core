@@ -1,6 +1,7 @@
 package com.kubawach.nfs.core.model.system;
 
 import java.io.StringWriter;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,9 +38,9 @@ public class System {
     private Map<String, Long> init = new HashMap<>();
 
     @JsonIgnore
-    public long getInital(final String product) {
+    public BigDecimal getInital(final String product) {
         Long result = init.get(product);
-        return (result == null ? 0 : result);
+        return (result == null ? BigDecimal.ZERO : BigDecimal.valueOf(result));
     }
 
     @JsonIgnore

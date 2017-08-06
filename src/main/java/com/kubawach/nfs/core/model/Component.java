@@ -1,5 +1,7 @@
 package com.kubawach.nfs.core.model;
 
+import java.math.BigDecimal;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -42,8 +44,8 @@ public class Component {
     public void processProducts(final State oldState, final State newState, final Environment env) {
         Product newProduct = newState.getProduct(effector.getProduct()); 
         
-        double product = effector.produce(id, oldState, newState, env);
-        double result = newProduct.getConcentration()+product;
+        BigDecimal product = effector.produce(id, oldState, newState, env);
+        BigDecimal result = newProduct.getConcentration().add(product);
         log.info("[component {}] Produced={}, overal={}", id, product, result);
         newProduct.setConcentration(result);
     }

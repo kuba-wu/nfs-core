@@ -23,8 +23,6 @@ import com.kubawach.nfs.core.service.SystemService;
 @RequestMapping("system")
 public class SimulationController {
 
-    public static final String SESSION_SYSTEM = "system";
-
     private static final Logger logger = Logger.getLogger(SimulationController.class);
 
     @Autowired private GraphService graphService;

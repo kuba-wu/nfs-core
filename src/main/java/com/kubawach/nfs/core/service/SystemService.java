@@ -1,5 +1,8 @@
 package com.kubawach.nfs.core.service;
 
+import static com.kubawach.nfs.core.utils.BigDecimalUtils.div;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -13,7 +16,8 @@ import com.kubawach.nfs.core.model.ExternalReceptor;
 import com.kubawach.nfs.core.model.Product;
 import com.kubawach.nfs.core.model.state.Environment;
 import com.kubawach.nfs.core.model.state.State;
-import com.kubawach.nfs.core.model.system.*;
+import com.kubawach.nfs.core.model.system.Concentration;
+import com.kubawach.nfs.core.model.system.Concentrations;
 import com.kubawach.nfs.core.model.system.System;
 
 @Service
@@ -34,7 +38,7 @@ public class SystemService {
     private static void updateResult(final Map<String, Concentrations> result, final State state, final int time, final Environment env) {
         for (String id : result.keySet()) {
             Concentrations cons = result.get(id);
-            cons.getValues().add(new Concentration(time/env.getTimeScale(), state.getProduct(id).getConcentration()));
+            cons.getValues().add(new Concentration(div(time, env.getTimeScale()), state.getProduct(id).getConcentration()));
         }
     }
 
@@ -52,8 +56,8 @@ public class SystemService {
         // 1st - outflow always happens, update products to calculate new later  
         for (Component component : system.getComponents()) {
             Product concentration = oldState.getProduct(component.getEffector().getProduct());
-            double outflow = env.outflow(component, concentration);
-            double newValue = Math.max(0, concentration.getConcentration() - outflow);
+            BigDecimal outflow = env.outflow(component, concentration);
+            BigDecimal newValue = BigDecimal.ZERO.max(concentration.getConcentration().subtract(outflow));
             concentration.setConcentration(newValue);
         }
         State newState = State.copy(oldState);
