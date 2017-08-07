@@ -165,6 +165,8 @@ var ChartModel = function(params) {
 				
 				var mergedData = self.mergeChartData(chartData);
 				var graphs = self.createGraphs(chartData, colors);
+				var legend = new AmCharts.AmLegend();
+                legend.valueWidth = 100;
 				
 				var innerId = params.view+"chartDiv"+self.chartNumber;
 				var outerId = params.view+"chartOuterDiv"+self.chartNumber;
@@ -211,7 +213,7 @@ var ChartModel = function(params) {
 					exportConfig : self.getExportConfig(self),
 					
 					// legend
-					legend : new AmCharts.AmLegend(),
+					legend : legend,
 					
 					// CURSOR
 					chartCursor : {
