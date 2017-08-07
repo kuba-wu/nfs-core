@@ -1,7 +1,5 @@
 package com.kubawach.nfs.core.model;
 
-import java.math.BigDecimal;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -13,5 +11,5 @@ public class Product {
         return new Product(source.getConcentration());
     }
 
-    private BigDecimal concentration;
+    private double concentration;
 }
