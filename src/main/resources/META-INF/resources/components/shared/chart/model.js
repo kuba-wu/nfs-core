@@ -8,25 +8,21 @@ var ChartModel = function(params) {
 	self.currentData = {};
 	self.charts = ko.observableArray();
 	
-	self.timeScale = ko.observable().subscribeTo(params.view+"_timeScale");
-	self.runTime = ko.observable().subscribeTo(params.view+"_runTime");
 	self.system = ko.observable().subscribeTo(params.view+"_system");
 	self.colors = ko.observable().subscribeTo(params.view+"_colors");
+	self.currentSimRun = null;
 	
-	ko.postbox.subscribe(params.view+"_submissionFlag", function(flagValue) {
+	ko.postbox.subscribe(params.view+"_simRun", function(simRun) {
+		
+		self.currentSimRun = simRun;
 		
 		if (!self.system()) {
 			MainModel.displayErrorAlert("Please select a task/exercise/solution first.");
 			return ;
 		}
 		
-		var environment = {
-			"runTime" : self.runTime(),
-			"timeScale" : self.timeScale()
-		};
-		
 		var simulation = {
-			environment : environment,
+			environment : simRun.environment,
 			system : JSON.parse(self.system())
 		};
 		self.loadData(self.colors(), self.system(), JSON.stringify(simulation));
@@ -45,7 +41,7 @@ var ChartModel = function(params) {
 			for (var j=0; j < chartData.length; j++) {
 				oneEntry[j+""] = chartData[j].values[i].product;
 			}
-			if (!(i % self.timeScale)) {
+			if (!(i % self.currentSimRun.environment.timeScale)) {
 				oneEntry.bullet = "round";
 			}
 			mergedData.push(oneEntry);
@@ -84,8 +80,8 @@ var ChartModel = function(params) {
 	},
 	
 	self.createExportFileName = function() {
-		var runTimeString = "[runTime-"+self.runTime()+"]";
-		var timeScaleString = "[timeScale-"+self.timeScale()+"]";
+		var runTimeString = "[runTime-"+self.currentSimRun.environment.runTime+"]";
+		var timeScaleString = "[timeScale-"+self.currentSimRun.environment.timeScale+"]";
 		var system = JSON.parse(self.system());
 		var names = ["nfs", system.name || "default", "system", runTimeString, timeScaleString];
 		return names.join("_");

@@ -2,20 +2,20 @@ var SimRunModel = function(params){
 	
 	var self = this;
 	
-	self.firstRun = true;
 	self.loadDataId = params.view+"_loadData";
-	
-	self.submissionFlag = ko.observable(false).publishOn(params.view+"_submissionFlag", true);
+		
+	self.simRun = ko.observable().publishOn(params.view+"_simRun", true);
 	self.runTime = ko.observable(200).syncWith(params.view+"_runTime", true, true);
 	self.timeScale = ko.observable(10).syncWith(params.view+"_timeScale", true, true);
 		
 	self.submit = function() {
-		if (self.firstRun) {
-			self.runTime(self.runTime());
-			self.timeScale(self.timeScale());
-			self.firstRun = false;
-		}
-		self.submissionFlag(!self.submissionFlag());
+		self.simRun({
+			environment : {
+				runTime : self.runTime(),
+				timeScale : self.timeScale()
+			},
+			timeStamp : new Date()
+		});
 		self.setNoSimulationRun();
 	};
 
