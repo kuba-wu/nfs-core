@@ -5,15 +5,9 @@ var SimRunModel = function(params){
 	self.firstRun = true;
 	self.loadDataId = params.view+"_loadData";
 	
-	var comparer = function(newValue, oldValue) {
-	    return false;
-	};
-	
 	self.submissionFlag = ko.observable(false).publishOn(params.view+"_submissionFlag", true);
-	self.runTime = ko.observable(200).syncWith(params.view+"_runTime", true, true, comparer);
-	self.runTime.extend({ notify: 'always' });
-	self.timeScale = ko.observable(10).syncWith(params.view+"_timeScale", true, true, comparer);
-	self.runTime.extend({notify: 'always'});
+	self.runTime = ko.observable(200).syncWith(params.view+"_runTime", true, true);
+	self.timeScale = ko.observable(10).syncWith(params.view+"_timeScale", true, true);
 		
 	self.submit = function() {
 		if (self.firstRun) {
