@@ -2,11 +2,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
 	<groupId>com.kubawach.nfs</groupId>
 	<artifactId>nfs-core</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0.0-SNAPSHOT</version>
 	<name>NegativeFeedbackSystem core simulation module</name>
+	<description>NFS core module - contains shared components and configuration to be used by NFS applications.</description>	
+	
 	<build>
 		<plugins>	
 			<plugin>
