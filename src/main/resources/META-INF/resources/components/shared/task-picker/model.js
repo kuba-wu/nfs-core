@@ -21,7 +21,9 @@ var TaskPickerModel= function(params){
 		
 		self.hasStructuralChange(true);
 		self.task(task);
-		self.system(JSON.stringify(task.system));
+		var systemString = JSON.stringify(task.system);
+		console.debug("TASK selected, pbulishing system.");
+		self.system(systemString);
 	};
 	
 	self.init = function() {

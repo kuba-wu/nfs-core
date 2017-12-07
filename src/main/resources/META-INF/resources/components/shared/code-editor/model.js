@@ -56,6 +56,7 @@ var CodeEditorModel = function(params) {
 	};
 	
 	self.submitSimulationDef = function() {
+		console.debug("Code changed - publishing changed system.");
 		self.hasStructuralChange(true);
 		self.system(self.getSimulationDef());
 	};

@@ -47,14 +47,13 @@
             <li class="list-group-item property">
                 <!--ko foreach: {data: thresholds, as: 'threshold'}-->
                 <div class="input-group input-group-sm configuration-input property">
-                	
                     <span class="input-group-addon" data-bind="text: $parents[1].formatLabel(threshold)"></span> 
                     <input type="text" class="form-control property" data-bind='value: threshold.value' />
                 </div>
                 <!--/ko-->
             </li>
         <!--/ko-->
-        <!--ko foreach: system.system.inits -->
+        <!--ko foreach: system.system.init -->
             <li class="list-group-item list-group-item-info property-name">
                 Initial values
             </li>    

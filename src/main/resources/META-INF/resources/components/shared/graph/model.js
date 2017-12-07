@@ -17,9 +17,11 @@ var GraphModel = function(params) {
 	
 	self.loadGraph = function(system) {
 		if (!self.hasStructuralChange()) {
+			console.debug("No structural changes found, will not fetch new graph.");
 			// no need to reload graph
 			return ;
 		}
+		console.debug("Fetching graph - structural changes");
 		$.ajax({
 			  url: "api/system/graph",
 			  type: "POST",
@@ -27,7 +29,8 @@ var GraphModel = function(params) {
 			  contentType: "application/json",
 			  success: function(graph){
 				  
-				  self.colors(self.generateColors(graph.products));
+				  var colors = self.generateColors(graph.products);
+				  self.colors(colors);
 				  self.graph(graph);
 				  self.createGraph();
 			  },
