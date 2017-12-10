@@ -23,7 +23,7 @@ var ParametersEditorModel = function(params){
 						var nfisOther = other.components[i];
 						componentse = componentse && (nfis.effector.production == nfisOther.effector.production)
 						componentse = componentse && (nfis.effector.outflow == nfisOther.effector.outflow)
-						componentse = componentse && (nfis.effector.delay == nfisOther.effector.delay)
+						componentse = componentse && (nfis.receptor.delay == nfisOther.receptor.delay)
 						
 						componentse = componentse && (nfis.receptor.thresholds.length == nfisOther.receptor.thresholds.length);
 						if (componentse) {
@@ -77,7 +77,7 @@ var ParametersEditorModel = function(params){
 	self.originalSystem = null;
 	
 	self.systemWithParams = ko.observable().publishOn(params.view+"_system", true);
-	self.hasStructuralChange = ko.observable().publishOn(params.view+"_hasStructuralChange", true);
+	self.hasStructuralChange = ko.observable().syncWith(params.view+"_hasStructuralChange", true);
 	
 	self.formatLabel = function(threshold) {
 		
@@ -101,6 +101,7 @@ var ParametersEditorModel = function(params){
 	
 	ko.postbox.subscribe(params.view+"_system", function(system) {
 		
+		console.debug("PARAMS: got new system. Strucutral changes? "+self.hasStructuralChange());
 		self.set(system);
 	});
 	
@@ -157,9 +158,9 @@ var ParametersEditorModel = function(params){
 		var system = self.fromModel();
 
 		if (system.equals(self.originalSystem)) {
-			console.debug("No system differences upon property set");
+			console.debug("PARAMS: No system differences upon property set");
 		} else {
-			console.debug("System changed upon property set, propagating.");
+			console.debug("PARAMS: System changed upon property set, propagating.");
 			self.hasStructuralChange(false);
 			self.systemWithParams(JSON.stringify(system));
 		}

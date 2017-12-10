@@ -19,10 +19,11 @@ var TaskPickerModel= function(params){
 	
 	self.loadSelectedTask = function(task) {
 		
+		console.debug("TASK: selected, publishing system.");
+		
 		self.hasStructuralChange(true);
 		self.task(task);
 		var systemString = JSON.stringify(task.system);
-		console.debug("TASK selected, pbulishing system.");
 		self.system(systemString);
 	};
 	

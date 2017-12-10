@@ -17,11 +17,11 @@ var GraphModel = function(params) {
 	
 	self.loadGraph = function(system) {
 		if (!self.hasStructuralChange()) {
-			console.debug("No structural changes found, will not fetch new graph.");
+			console.debug("GRAPH: No structural changes found, will not fetch new graph.");
 			// no need to reload graph
 			return ;
 		}
-		console.debug("Fetching graph - structural changes");
+		console.debug("GRPH: Fetching graph - structural changes");
 		$.ajax({
 			  url: "api/system/graph",
 			  type: "POST",
