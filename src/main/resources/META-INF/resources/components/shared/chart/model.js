@@ -23,9 +23,9 @@ var ChartModel = function(params) {
 		
 		var simulation = {
 			environment : simRun.environment,
-			system : JSON.parse(self.system())
+			system : JSON.parse(self.system().system)
 		};
-		self.loadData(self.colors(), self.system(), JSON.stringify(simulation));
+		self.loadData(self.colors(), simulation);
 	});
 	
 	self.show = function() {
@@ -82,7 +82,7 @@ var ChartModel = function(params) {
 	self.createExportFileName = function() {
 		var runTimeString = "[runTime-"+self.currentSimRun.environment.runTime+"]";
 		var timeScaleString = "[timeScale-"+self.currentSimRun.environment.timeScale+"]";
-		var system = JSON.parse(self.system());
+		var system = JSON.parse(self.system().system);
 		var names = ["nfs", system.name || "default", "system", runTimeString, timeScaleString];
 		return names.join("_");
 	};
@@ -150,11 +150,14 @@ var ChartModel = function(params) {
 		return ("api/system/simulation");
 	};
 	
-	self.loadData = function(colors, systemJs, simulationRun) {
+	self.loadData = function(colors, simulationRun) {
+		
+		console.debug("CHART: loading data for env: "+JSON.stringify(simulationRun.environment));
+		MainModel.showOverlay();
 		
 		var url = self.getDataUrl();
 		$.ajax(url, {
-			data : simulationRun,
+			data : JSON.stringify(simulationRun),
 			success : function(chartData) {
 
 				self.show();
@@ -168,7 +171,7 @@ var ChartModel = function(params) {
 				var outerId = params.view+"chartOuterDiv"+self.chartNumber;
 				self.chartNumber+=1;
 		
-				var systemModel = JSON.parse(systemJs);
+				var systemModel = simulationRun.system;
 				
 				self.charts.push({
 					innerId : innerId, 
@@ -219,11 +222,15 @@ var ChartModel = function(params) {
 					chartScrollbar : {}
 				});
 				self.currentData = chartData;
+				MainModel.hideOverlay();
 				MainModel.goToElement(outerId);
+				
+				console.debug("CHART: data loaded");
 			},
 			contentType : 'application/json',
 			type : 'POST'
 		}).fail(function(xhr) {
+			MainModel.hideOverlay();
 			MainModel.displayErrorAlert(xhr.responseText);
 		});
 	}

@@ -4,7 +4,6 @@ var TaskPickerModel= function(params){
 
 	self.system = ko.observable().publishOn(params.view+"_system", true);
 	self.task = ko.observable().publishOn(params.view+"_task", true);
-	self.hasStructuralChange = ko.observable().publishOn(params.view+"_hasStructuralChange", true);
 	self.tasks = ko.observableArray();
 	
 	ko.postbox.subscribe("global"+"_tasks-changed", function(ts) {
@@ -21,10 +20,9 @@ var TaskPickerModel= function(params){
 		
 		console.debug("TASK: selected, publishing system.");
 		
-		self.hasStructuralChange(true);
 		self.task(task);
 		var systemString = JSON.stringify(task.system);
-		self.system(systemString);
+		self.system({system: systemString, hasStructuralChange : true});
 	};
 	
 	self.init = function() {

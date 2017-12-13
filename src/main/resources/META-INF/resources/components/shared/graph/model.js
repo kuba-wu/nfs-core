@@ -10,34 +10,33 @@ var GraphModel = function(params) {
 	self.graph.extend({ notify: 'always' });
 
 	
-	self.hasStructuralChange = ko.observable().subscribeTo(params.view+"_hasStructuralChange", true);
 	ko.postbox.subscribe(params.view+"_system", function(system) {
 		self.loadGraph(system);
 	});
 	
 	self.loadGraph = function(system) {
-		if (!self.hasStructuralChange()) {
+		
+		if (system.hasStructuralChange) {
+			console.debug("GRPH: Fetching graph - structural changes");
+			$.ajax({
+				  url: "api/system/graph",
+				  type: "POST",
+				  data: system.system,
+				  contentType: "application/json",
+				  success: function(graph){
+					  
+					  var colors = self.generateColors(graph.products);
+					  self.colors(colors);
+					  self.graph(graph);
+					  self.createGraph();
+				  },
+				  error: function(xhr){
+					  MainModel.displayErrorAlert(xhr.status == 400 ? xhr.responseText : "An unexpected error has occurred. Could not load graph.");
+				  }
+			});
+		} else {
 			console.debug("GRAPH: No structural changes found, will not fetch new graph.");
-			// no need to reload graph
-			return ;
 		}
-		console.debug("GRPH: Fetching graph - structural changes");
-		$.ajax({
-			  url: "api/system/graph",
-			  type: "POST",
-			  data: system,
-			  contentType: "application/json",
-			  success: function(graph){
-				  
-				  var colors = self.generateColors(graph.products);
-				  self.colors(colors);
-				  self.graph(graph);
-				  self.createGraph();
-			  },
-			  error: function(xhr){
-				  MainModel.displayErrorAlert(xhr.status == 400 ? xhr.responseText : "An unexpected error has occurred. Could not load graph.");
-			  }
-		});
 	};
 	
 	self.generateColors = function(products) {

@@ -7,10 +7,9 @@ var CodeEditorModel = function(params) {
 	
 	self.editor = {};
 	self.system = ko.observable().publishOn(params.view+"_system", true);
-	self.hasStructuralChange = ko.observable().publishOn(params.view+"_hasStructuralChange", true);
 	
 	ko.postbox.subscribe(params.view+"_system", function(system) {
-		self.set(system);
+		self.set(system.system);
 	});
 		
 	self.init = function() {
@@ -57,8 +56,7 @@ var CodeEditorModel = function(params) {
 	
 	self.submitSimulationDef = function() {
 		console.debug("CODE: hanged - publishing changed system.");
-		self.hasStructuralChange(true);
-		self.system(self.getSimulationDef());
+		self.system({system : self.getSimulationDef(), hasStructuralChange : true});
 	};
 	
 	self.getSimulationDef = function() {

@@ -4,14 +4,14 @@ var ParametersEditorModel = function(params){
 	
 	self.containerId = params.view+"_parametersEditor";
 	
-	self.createSystem = function(id, parentId, name, description, components, receptors, init) {
+	self.createSystem = function(system, init) {
 		return {
-			id: id,
-			parentId: parentId,
-			name: name,
-			description : description,
-			components: components,
-			receptors: receptors,
+			id: system.id,
+			parentId: system.parentId,
+			name: system.name,
+			description : system.description,
+			components: system.components,
+			receptors: system.receptors,
 			init: init,
 			equals : function(other) {
 				var ide = (this.id == other.id);
@@ -70,14 +70,15 @@ var ParametersEditorModel = function(params){
 		};
 	}; 
 	
+	// editor model
 	self.system = ko.mapping.fromJS({
-		system : self.createSystem("", null, "", "", [], [], [])
+		system : self.createSystem({id : "", patentId : null, name : "", description : "", components : [], receptors: []}, [])
 	});
 	
-	self.originalSystem = null;
-	
+	// system as recently published
 	self.systemWithParams = ko.observable().publishOn(params.view+"_system", true);
-	self.hasStructuralChange = ko.observable().syncWith(params.view+"_hasStructuralChange", true);
+	// "bare" system as represented by current editor model (loaded, published)
+	self.recentSystem = null;
 	
 	self.formatLabel = function(threshold) {
 		
@@ -87,29 +88,34 @@ var ParametersEditorModel = function(params){
 	};
 		
 	self.toModel = function(systemObject) {
-		
 		return {
-			system : self.createSystem(systemObject.id, systemObject.parentId, systemObject.name, systemObject.description, systemObject.components, systemObject.receptors,  [systemObject.init])
+			system : self.createSystem(systemObject, [systemObject.init])
 		};
 	};
 	
 	self.fromModel = function() {
 		var unmapped = ko.mapping.toJS(self.system).system;
 		var init = (unmapped.init.length == 0 ? {} : unmapped.init[0]);
-		return self.createSystem(unmapped.id, unmapped.parentId, unmapped.name, unmapped.description, unmapped.components, unmapped.receptors, init);
+		return self.createSystem(unmapped, init);
 	};
 	
 	ko.postbox.subscribe(params.view+"_system", function(system) {
 		
-		console.debug("PARAMS: got new system. Strucutral changes? "+self.hasStructuralChange());
-		self.set(system);
+		console.debug("PARAMS: got new system. Structural changes? "+system.hasStructuralChange);
+		var systemObject = JSON.parse(system.system);
+		
+		if (self.recentSystem && self.recentSystem.equals(systemObject)) {
+			console.debug("PARAMS: No system differences upon system subscription.");
+		} else {
+			console.debug("PARAMS: System different, loading.");
+			self.set(systemObject);
+		}
 	});
 	
-	self.set = function(systemAsString) {
+	self.set = function(systemObject) {
 		
-		var systemObject = JSON.parse(systemAsString);
-		self.originalSystem = systemObject;
 		var system = self.toModel(systemObject);
+		self.recentSystem = system.system;
 
 		ko.mapping.fromJS(system, self.system);
 		self.subscribeToModel(self.setSystemParams);
@@ -157,12 +163,12 @@ var ParametersEditorModel = function(params){
 		
 		var system = self.fromModel();
 
-		if (system.equals(self.originalSystem)) {
+		if (system.equals(self.recentSystem)) {
 			console.debug("PARAMS: No system differences upon property set");
 		} else {
 			console.debug("PARAMS: System changed upon property set, propagating.");
-			self.hasStructuralChange(false);
-			self.systemWithParams(JSON.stringify(system));
+			self.recentSystem = system;
+			self.systemWithParams({system : JSON.stringify(system), hasStructuralChange : false});
 		}
 	};
 };
